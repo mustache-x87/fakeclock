@@ -20,8 +20,11 @@ class FakeClock
 
 class MasterOfTime
 {
+
   public:
-    MasterOfTime();
+    /// Master of time is monotonic when by creating it, you are not going back in time.
+    /// Non monotonic master of time will set current time to 1 second after epoch.
+    MasterOfTime(bool monotonic = false);
     ~MasterOfTime();
     void advance(FakeClock::duration duration);
 };

@@ -1,4 +1,5 @@
 #include <atomic>
+#include <chrono>
 #include <condition_variable>
 #include <cstring>
 #include <dlfcn.h>
@@ -18,9 +19,19 @@
 namespace fakeclock
 {
 
-MasterOfTime::MasterOfTime()
+MasterOfTime::MasterOfTime(bool monotonic)
 {
-    ClockSimulator::getInstance().addClock();
+    if (monotonic)
+    {
+        auto now = std::chrono::system_clock::now();
+        auto duration = now.time_since_epoch();
+        ClockSimulator::getInstance().addClock();
+        ClockSimulator::getInstance().setTime(FakeClock::time_point(duration));
+    }
+    else
+    {
+        ClockSimulator::getInstance().addClock();
+    }
 }
 
 MasterOfTime::~MasterOfTime()
