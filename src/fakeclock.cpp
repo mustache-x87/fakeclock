@@ -19,9 +19,9 @@
 namespace fakeclock
 {
 
-MasterOfTime::MasterOfTime(bool monotonic)
+MasterOfTime::MasterOfTime(ClockType type)
 {
-    if (monotonic)
+    if (type == ClockType::MONOTONIC)
     {
         auto now = std::chrono::system_clock::now();
         auto duration = now.time_since_epoch();
